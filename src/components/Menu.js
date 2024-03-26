@@ -29,6 +29,9 @@ const Menu = () => {
           <LinkContainer to="/faculty">
             <Nav.Link>Faculty</Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/exam">
+            <Nav.Link>Exam</Nav.Link>
+          </LinkContainer>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
