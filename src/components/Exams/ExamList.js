@@ -1,12 +1,12 @@
 // ExamList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Table, Modal } from 'react-bootstrap';
+import { Button, Table, Modal, InputGroup, DropdownButton, DropdownItem } from 'react-bootstrap';
 import { format } from 'date-fns';
 import AddExam from './AddExam';
 import EditExam from './EditExam';
 
-const ExamList = () => {
+const ExamList = ({ examId, onConfigClick }) => {
   const [exams, setExams] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -86,7 +86,7 @@ const ExamList = () => {
             <th>Ghi chú</th>
             <th>Phách bắt đầu</th>
             <th>Tự động sinh phách</th>
-            <th>Actions</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -100,12 +100,13 @@ const ExamList = () => {
               <td>{exam.startRegistrationCode}</td>
               <td>{exam.isAutoGenRegistrationCode?'Yes' : 'No'}</td>
               <td>
-                <Button variant="info" onClick={() => handleShowEditModal(exam)}>
-                  Edit
-                </Button>{' '}
-                <Button variant="danger" onClick={() => handleShowDeleteModal(exam)}>
-                  Delete
-                </Button>
+                <InputGroup className='mb-3'>
+                  <DropdownButton variant="success" title="Actions" id="input-group-dropdown-1">
+                    <DropdownItem onClick={() => handleShowEditModal(exam)}>Edit</DropdownItem>
+                    <DropdownItem variant="danger" onClick={() => handleShowDeleteModal(exam)}>Delete</DropdownItem>
+                    <DropdownItem href={`/config-exam/${exam.examId}`}>Config</DropdownItem>
+                  </DropdownButton>
+                </InputGroup>
               </td>
             </tr>
           ))}
@@ -121,7 +122,6 @@ const ExamList = () => {
         />
       )}
       <AddExam show={showAddModal} handleClose={handleCloseAddModal} fetchData={fetchData} />
-      {/* Modal xác nhận xóa */}
       {selectedExam && (
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
