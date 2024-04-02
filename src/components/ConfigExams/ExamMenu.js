@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-const ExamMenu = ({ onConfirmClick }) => {
+const ExamMenu = ({ onConfirmUploadClick, onGenRegistrationCode }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/">Home</Navbar.Brand>
@@ -11,7 +10,8 @@ const ExamMenu = ({ onConfirmClick }) => {
           {/* <LinkContainer to="/upload-student">
             <Nav.Link>Upload</Nav.Link>
           </LinkContainer> */}
-          <Button className="nav-link" onClick={onConfirmClick}>Upload Student</Button>
+          <Button className="nav-link" onClick={onConfirmUploadClick}>Upload Student</Button>
+          <Button className="nav-link" onClick={onGenRegistrationCode}>Sinh phách</Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

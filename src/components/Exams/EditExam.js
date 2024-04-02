@@ -37,7 +37,7 @@ const EditExam = ({ show, handleClose, fetchData, exam }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Sửa thông tin kỳ thi</Modal.Title>
       </Modal.Header>
@@ -80,13 +80,12 @@ const EditExam = ({ show, handleClose, fetchData, exam }) => {
             <Form.Check type="switch" name="status" checked={editedExam.status} onChange={handleCheckboxChange} />
             </Col>
           </Form.Group>
-          <br/>
-          <hr/>
-          <Button variant="primary" type="submit">
-            Save Changes
-          </Button>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="success" onClick={handleClose}>Cancel</Button>
+        <Button variant="primary" type="submit">Save Changes</Button>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -4,36 +4,41 @@ import { Button, Modal } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import ExamMenu from './ExamMenu';
 import UploadStudent from './UploadStudent';
+import ConfirmGenRegCode from './ConfirmGenRegCode';
 const ConfigExam = () => {
     const { examId } = useParams();
     const [showUploadModal, setShowUploadModal] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [showConfirmationUpload, setShowConfirmationUpload] = useState(false);
     const [exam, setExam] = useState(null);
     const [countStudentExam, setCountStudentExam] = useState(0);
     const [countRegistrationCode, setCountRegistrationCode] = useState(0);
     const [isOverwrite, setIsOverWrite] = useState(false);
+    const [showConfirmGenRegCode, setShowConfirmGenRegCode] = useState(false);
+    const [messageGenRegCode, setMessageGenRegCode] = useState("");
+    const [isShowButtonOverWrite, setIsShowButtonOverWrite] = useState(false);
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const examData = await axios.get(`http://localhost:5107/api/Exam/${examId}`);
+              setExam(examData.data);
+              const countStudentEx = await axios.get(`http://localhost:5107/api/StudentExam/count/${examId}`);
+              setCountStudentExam(countStudentEx.data);
+              const countRegisCode = await axios.get(`http://localhost:5107/api/RegistrationCode/count/${examId}`);
+              setCountRegistrationCode(countRegisCode.data);
+            } catch (error) {
+              console.error('Error fetching exam data:', error);
+            }
+        };
         fetchData();
       }, [examId]);
-    const fetchData = async () => {
-        try {
-          const examData = await axios.get(`http://localhost:5107/api/Exam/${examId}`);
-          setExam(examData.data);
-          const countStudentEx = await axios.get(`http://localhost:5107/api/StudentExam/count/${examId}`);
-          setCountStudentExam(countStudentEx.data);
-          const countRegisCode = await axios.get(`http://localhost:5107/api/RegistrationCode/count/${examId}`);
-          setCountRegistrationCode(countRegisCode.data);
-        } catch (error) {
-          console.error('Error fetching exam data:', error);
-        }
-    };
-    const handleConfirmClick = () => {
+    
+    const handleConfirmUploadClick = () => {
         if(countStudentExam > 0) {
-            setShowConfirmation(true);
+            setShowConfirmationUpload(true);
         } else {
-            setShowConfirmation(false);
+            setShowConfirmationUpload(false);
+            setShowUploadModal(true);
         }
-        setShowUploadModal(true);
     };
     const handleConfirmation = (confirmed) => {
         if  (confirmed) {
@@ -41,7 +46,7 @@ const ConfigExam = () => {
         } else {
             setIsOverWrite(false);
         }
-        setShowConfirmation(false);
+        setShowConfirmationUpload(false);
         setShowUploadModal(true);
     };
     const handleCloseUploadModal = () => {
@@ -57,16 +62,29 @@ const ConfigExam = () => {
             console.error('Error fetching student count:', error);
         }
     };
+    const handleConfirmGenRegCodeClick = () => {
+        setShowConfirmGenRegCode(true);
+        if(countRegistrationCode>0) {
+            setMessageGenRegCode("Phách của kỳ thi đã được sinh, có muốn xoá phách và sinh lại không?");
+            setIsShowButtonOverWrite(true);
+        } else {
+            setMessageGenRegCode("Bạn có muốn sinh phách cho kỳ thi?");
+        }
+    }
+    const handleCloseGenRegCode = () => {
+        setShowConfirmGenRegCode(false);
+    }
     
     if (!exam) {
         return <div>Loading...</div>;
     }
     return(
         <div>
-            <UploadStudent show={showUploadModal} handleClose={handleCloseUploadModal} examID={examId} checkOverwrite={isOverwrite} updateInformation={updateInformation}/>
-            <ExamMenu onConfirmClick = {handleConfirmClick}/>
+            <UploadStudent show={showUploadModal} handleClose={handleCloseUploadModal} examID={examId} checkOverwrite={isOverwrite} updateInformation={updateInformation} countRegistrationCode = {countRegistrationCode}/>
+            <ConfirmGenRegCode show={showConfirmGenRegCode} handleClose={handleCloseGenRegCode} examID={examId} message={messageGenRegCode} updateInformation={updateInformation} isShowButtonOverWrite={isShowButtonOverWrite}/>
+            <ExamMenu onConfirmUploadClick = {handleConfirmUploadClick} onGenRegistrationCode = {handleConfirmGenRegCodeClick}/>
             <h2 className='m-3'>{exam.examName}: {countStudentExam} (thí sinh) - {countRegistrationCode} (phách)</h2>
-            <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
+            <Modal show={showConfirmationUpload} onHide={() => setShowConfirmationUpload(false)}>
                 <Modal.Header closeButton>
                 <Modal.Title>Thông báo</Modal.Title>
                 </Modal.Header>

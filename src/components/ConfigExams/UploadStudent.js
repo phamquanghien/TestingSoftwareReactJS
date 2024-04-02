@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Modal, Button, Form} from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col} from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInformation}) => {
+const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInformation, countRegistrationCode}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isCheckData, setIsCheckData] = useState(false);
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     };
+    const handleCheckboxChange = () => {
+        setIsCheckData(!isCheckData);
+      };
     const handleUploadStudent = async () => {
+        if(countRegistrationCode > 0 && checkOverwrite === true)
+        {
+            alert("Kỳ thi đã sinh phách, không thể xoá dữ liệu thí sinh dự thi để ghi đè chỉ có thể ghi bổ sung.");
+            return;
+        }
         if (!selectedFile) {
             alert("Please choose excel file to upload!")
             return;
@@ -23,7 +32,7 @@ const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInforma
         try {
             handleClose();
             setLoading(true);
-            const response = await axios.post('http://localhost:5107/api/StudentExam/Upload?examId=' + examID + '&isOverWrite=' + checkOverwrite, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
+            const response = await axios.post('http://localhost:5107/api/StudentExam/Upload?examId=' + examID + '&isOverWrite=' + checkOverwrite + '&isCheckData=' + isCheckData, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
             setLoading(false);
             alert(response.data);
             updateInformation();
@@ -33,7 +42,7 @@ const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInforma
     };
     return (
         <div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static">
                 <Modal.Header closeButton>
                     <Modal.Title>Upload danh sách Sinh viên</Modal.Title>
                 </Modal.Header>
@@ -42,10 +51,18 @@ const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInforma
                         <Form.Group className='mb-3'>
                             <Form.Control type="file" onChange={handleFileChange} />
                         </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label as={Col} sm={8}>Kiểm tra dữ liệu trước khi lưu?</Form.Label>
+                            <Col sm={3}>
+                            <Form.Check type="switch" name="isCheckData" checked={isCheckData} onChange={handleCheckboxChange} />
+                            </Col>
+                        </Form.Group>
                     </Form>
-                    <hr></hr>
-                    <Button variant='primary' type='submit' onClick={handleUploadStudent}>Upload</Button>
                 </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='success' onClick={handleClose}>Cancel</Button>
+                    <Button variant='primary' type='submit' onClick={handleUploadStudent}>Upload</Button>
+                </Modal.Footer>
             </Modal>
             {loading &&(
                 <div>

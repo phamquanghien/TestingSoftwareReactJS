@@ -69,12 +69,11 @@ const AddExam = ({ show, handleClose, fetchData }) => {
               <Form.Check type="switch" name="isAutoGenRegistrationCode" checked={newExam.isAutoGenRegistrationCode} onChange={handleCheckboxChange} />
               </Col>
           </Form.Group>
-          <hr/>
-          <Button variant="primary" type="submit">
-            Add
-          </Button>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" type="submit">+ Add</Button>
+      </Modal.Footer>
     </Modal>
   );
 };
