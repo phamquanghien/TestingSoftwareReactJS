@@ -72,7 +72,7 @@ const AddExam = ({ show, handleClose, fetchData }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" type="submit">+ Add</Button>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>+ Add</Button>
       </Modal.Footer>
     </Modal>
   );

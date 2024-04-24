@@ -84,7 +84,7 @@ const EditExam = ({ show, handleClose, fetchData, exam }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="success" onClick={handleClose}>Cancel</Button>
-        <Button variant="primary" type="submit">Save Changes</Button>
+        <Button variant="primary" type="submit" onClick={handleEdit}>Save Changes</Button>
       </Modal.Footer>
     </Modal>
   );
