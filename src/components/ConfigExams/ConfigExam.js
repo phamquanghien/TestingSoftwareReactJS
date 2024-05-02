@@ -5,10 +5,12 @@ import { useParams } from 'react-router-dom';
 import ExamMenu from './ExamMenu';
 import UploadStudent from './UploadStudent';
 import ConfirmGenRegCode from './ConfirmGenRegCode';
+import SubjectExamList from '../SubjectExams/SubjectExamList';
 const ConfigExam = () => {
     const { examId } = useParams();
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showConfirmationUpload, setShowConfirmationUpload] = useState(false);
+    const [showSubjectExamList, setShowSubjectExamList] = useState(false);
     const [exam, setExam] = useState(null);
     const [countStudentExam, setCountStudentExam] = useState(0);
     const [countRegistrationCode, setCountRegistrationCode] = useState(0);
@@ -84,6 +86,8 @@ const ConfigExam = () => {
             <ConfirmGenRegCode show={showConfirmGenRegCode} handleClose={handleCloseGenRegCode} examID={examId} message={messageGenRegCode} updateInformation={updateInformation} isShowButtonOverWrite={isShowButtonOverWrite}/>
             <ExamMenu onConfirmUploadClick = {handleConfirmUploadClick} onGenRegistrationCode = {handleConfirmGenRegCodeClick}/>
             <h2 className='m-3'>{exam.examName}: {countStudentExam} (thí sinh) - {countRegistrationCode} (phách)</h2>
+            <hr/>
+            <SubjectExamList show={showSubjectExamList} examID={examId}/>
             <Modal show={showConfirmationUpload} onHide={() => setShowConfirmationUpload(false)}>
                 <Modal.Header closeButton>
                 <Modal.Title>Thông báo</Modal.Title>

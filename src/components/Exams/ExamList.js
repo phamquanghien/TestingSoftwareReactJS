@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import AddExam from './AddExam';
 import EditExam from './EditExam';
 
-const ExamList = ({ examId, onConfigClick }) => {
+const ExamList = () => {
   const [exams, setExams] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);

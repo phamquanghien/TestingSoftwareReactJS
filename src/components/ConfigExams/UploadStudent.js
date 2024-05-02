@@ -49,7 +49,7 @@ const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInforma
                 <Modal.Body>
                     <Form onSubmit={handleUploadStudent}>
                         <Form.Group className='mb-3'>
-                            <Form.Control type="file" onChange={handleFileChange} />
+                            <Form.Control type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
                         </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label as={Col} sm={8}>Kiểm tra dữ liệu trước khi lưu?</Form.Label>

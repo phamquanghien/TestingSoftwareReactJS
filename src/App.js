@@ -5,6 +5,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Exam from './components/Exams/ExamList';
 import Student from './components/Students/StudentList';
 import ConfigExam from './components/ConfigExams/ConfigExam';
+import EmployeeExamBag from './components/Employees/EmployeeExamBag';
+import EmployeeExam from './components/Employees/EmployeeExam';
+import LecturersExam from './components/Lectures/LecturersExam';
+import LecturersExamBag from './components/Lectures/LecturersExamBag';
+import Menu from './components/Navigation/MenuDemo';
 
 const App = () => {
   return (
@@ -12,9 +17,14 @@ const App = () => {
       <div>
         {/* <Menu /> */}
         <Routes>
-          <Route path="/" element={<Exam />} />
+          <Route path="/" element={<Menu />} />
+          <Route path="/admin" element={<Exam />} />
           <Route path="/config-exam/:examId" element={<ConfigExam />} />
           <Route path="/student" element={<Student />} />
+          <Route path="/employee" element={<EmployeeExam />} />
+          <Route path="/employee-examBag/:examId" element={<EmployeeExamBag />} />
+          <Route path="/lecturers" element={<LecturersExam />} />
+          <Route path="/lecturers-examBag/:examId" element={<LecturersExamBag />} />
         </Routes>
       </div>
     </Router>

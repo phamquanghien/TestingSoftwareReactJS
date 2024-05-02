@@ -1,0 +1,17 @@
+.menu-container {
+    height: 100vh; /* Đặt chiều cao của container bằng chiều cao của màn hình */
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+}
+  
+.menu-container .row {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: blue; /* Màu xanh */
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-const ExamMenu = ({ onConfirmUploadClick, onGenRegistrationCode }) => {
+const ExamMenu = ({ onConfirmUploadClick, onGenRegistrationCode, OnDownloadFile }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/">Home</Navbar.Brand>
@@ -12,6 +12,7 @@ const ExamMenu = ({ onConfirmUploadClick, onGenRegistrationCode }) => {
           </LinkContainer> */}
           <Button className="nav-link" onClick={onConfirmUploadClick}>Upload Student</Button>
           <Button className="nav-link" onClick={onGenRegistrationCode}>Sinh phách</Button>
+          {/* <Button className="nav-link" onClick={OnDownloadFile}>Download</Button> */}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
