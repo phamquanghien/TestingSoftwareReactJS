@@ -27,7 +27,9 @@ const LecturersUploadFile = ({ showModalUpload, handleCloseModalUpload, examID, 
             //call api
             const response = await axios.post('http://localhost:5107/api/ExamResult/upload-file-result?examId=' + examID + '&examBag=' + examBag, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
             setLoading(false);
-            setIsMatchingTestScore(true);
+            if(response.data === "Nhập điểm thành công"){
+                setIsMatchingTestScore(true);
+            }
             alert(response.data);
         } catch (error) {
             console.error('Đã xảy ra lỗi khi cập nhật dữ liệu:', error);

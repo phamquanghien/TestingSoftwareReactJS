@@ -133,7 +133,7 @@ const SubjectExamList = () => {
       {isLoading && (
         <>
           <LecturersUploadFile showModalUpload={showModalUpload} handleCloseModalUpload={handleCloseModalUpload} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
-          <LecturersScanCode showModalScanCode={showModalScanCode} handleCloseModalScanCode={handleCloseModalScanCode} examID={examId} examBag={keySearch} setIsCandidatesAbsent={setIsCandidatesAbsent}/>
+          <LecturersScanCode showModalScanCode={showModalScanCode} handleCloseModalScanCode={handleCloseModalScanCode} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
         </>
       )}
       {isLoading && isMatchingTestScore && (
