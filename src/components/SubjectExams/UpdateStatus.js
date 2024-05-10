@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
-const SearchBySubjectCode = () => {
+const UpdateStatus = () => {
     const { examId } = useParams();
     const [subjectExams, setSubjectExams] = useState([]);
     const [keySearch, setKeySearch] = useState("");
@@ -142,4 +142,4 @@ const SearchBySubjectCode = () => {
     );
 };
 
-export default SearchBySubjectCode;
+export default UpdateStatus;

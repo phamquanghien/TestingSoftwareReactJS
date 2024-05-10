@@ -5,8 +5,11 @@ import { useParams } from 'react-router-dom';
 import ExamMenu from './ExamMenu';
 import UploadStudent from './UploadStudent';
 import ConfirmGenRegCode from './ConfirmGenRegCode';
-import SearchBySubjectCode from '../SubjectExams/SearchBySubjectCode';
-import Demo from '../SubjectExams/Demo';
+import UpdateStatus from '../SubjectExams/UpdateStatus';
+import DownloadRegistrationCode from '../RegistrationCodes/DownloadRegistrationCode';
+import Statistics from '../SubjectExams/Statistics';
+import ReviewTestScore from '../ExamResults/ReviewTestScore';
+import ExportTranscript from '../ExamResults/ExportTranscript';
 const ConfigExam = () => {
     const { examId } = useParams();
     const [showUploadModal, setShowUploadModal] = useState(false);
@@ -18,6 +21,7 @@ const ConfigExam = () => {
     const [showConfirmGenRegCode, setShowConfirmGenRegCode] = useState(false);
     const [messageGenRegCode, setMessageGenRegCode] = useState("");
     const [isShowButtonOverWrite, setIsShowButtonOverWrite] = useState(false);
+    const [showProcess, setShowProcess] = useState(0);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -76,6 +80,12 @@ const ConfigExam = () => {
     const handleCloseGenRegCode = () => {
         setShowConfirmGenRegCode(false);
     }
+    const handleDownloadRegistrationCodeFile = () => {
+        
+    }
+    const handleProcess = (value) => {
+        setShowProcess(value);
+    }
     
     if (!exam) {
         return <div>Loading...</div>;
@@ -84,11 +94,14 @@ const ConfigExam = () => {
         <div>
             <UploadStudent show={showUploadModal} handleClose={handleCloseUploadModal} examID={examId} checkOverwrite={isOverwrite} updateInformation={updateInformation} countRegistrationCode = {countRegistrationCode}/>
             <ConfirmGenRegCode show={showConfirmGenRegCode} handleClose={handleCloseGenRegCode} examID={examId} message={messageGenRegCode} updateInformation={updateInformation} isShowButtonOverWrite={isShowButtonOverWrite}/>
-            <ExamMenu onConfirmUploadClick = {handleConfirmUploadClick} onGenRegistrationCode = {handleConfirmGenRegCodeClick}/>
+            <ExamMenu onConfirmUploadClick = {handleConfirmUploadClick} onGenRegistrationCode = {handleConfirmGenRegCodeClick} OnProcess={handleProcess}/>
             <h2 className='m-3'>{exam.examName}: {countStudentExam} (thí sinh) - {countRegistrationCode} (phách)</h2>
             <hr/>
-            {/* <SearchBySubjectCode show={true} examID={examId}/> */}
-            <Demo examID={examId}/>
+            {(showProcess === 0) && <UpdateStatus OnDownloadFile = {handleDownloadRegistrationCodeFile} examID={examId}/>}
+            {(showProcess === 1) && <DownloadRegistrationCode  examID={examId}/>}
+            {(showProcess === 2) && <Statistics examID={examId}/>}
+            {(showProcess === 3) && <ReviewTestScore examID={examId}/>}
+            {(showProcess === 4) && <ExportTranscript examID={examId}/>}
             <Modal show={showConfirmationUpload} onHide={() => setShowConfirmationUpload(false)}>
                 <Modal.Header closeButton>
                 <Modal.Title>Thông báo</Modal.Title>
