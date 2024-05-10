@@ -1,18 +1,21 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 const ExamMenu = ({ onConfirmUploadClick, onGenRegistrationCode, OnDownloadFile }) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className=''>
       <Navbar.Brand href="/">Home</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          {/* <LinkContainer to="/upload-student">
-            <Nav.Link>Upload</Nav.Link>
-          </LinkContainer> */}
-          <Button className="nav-link" onClick={onConfirmUploadClick}>Upload Student</Button>
-          <Button className="nav-link" onClick={onGenRegistrationCode}>Sinh phách</Button>
-          {/* <Button className="nav-link" onClick={OnDownloadFile}>Download</Button> */}
+          <li className="nav-item ud-cursor w3-hover-light">
+            <b className="nav-link active" onClick={onConfirmUploadClick} href="#">Upload Student</b>
+          </li>
+          <li className="nav-item ud-cursor">
+            <b className="nav-link active" onClick={onGenRegistrationCode} href="#">Sinh phách</b>
+          </li>
+          <li className="nav-item ud-cursor">
+            <b className="nav-link active" onClick={OnDownloadFile} href="#">Download</b>
+          </li>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

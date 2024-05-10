@@ -10,6 +10,7 @@ import EmployeeExam from './components/Employees/EmployeeExam';
 import LecturersExam from './components/Lectures/LecturersExam';
 import LecturersExamBag from './components/Lectures/LecturersExamBag';
 import Menu from './components/Navigation/MenuDemo';
+import SubjectExamByExamBag from './components/DownloadFile/SubjectExamByExamBag';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/employee-examBag/:examId" element={<EmployeeExamBag />} />
           <Route path="/lecturers" element={<LecturersExam />} />
           <Route path="/lecturers-examBag/:examId" element={<LecturersExamBag />} />
+          <Route path="/download/:examId" element={<SubjectExamByExamBag />} />
         </Routes>
       </div>
     </Router>

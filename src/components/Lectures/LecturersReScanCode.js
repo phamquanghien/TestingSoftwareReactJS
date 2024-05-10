@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { MdDeleteForever } from "react-icons/md";
 
-const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID, examBag, setIsMatchingTestScore}) => {
+const LecturersReScanCode = ({ showModalReScanCode, handleCloseModalReScanCode, examID, examBag, setIsMatchingTestScore}) => {
     const [examResults, setExamResults] = useState([]);
-    const [registrationCodeNumber, setRegistrationCodeNumber] = useState(0);
     const [examResult1, setExamResult1] = useState(0);
     const [examResult2, setExamResult2] = useState(0);
     const [averageScore, setAverageScore] = useState(0);
+    const [registrationCodeNumber, setRegistrationCodeNumber] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await axios.get(`http://localhost:5107/api/ExamResult/get-by-examID-examBag?examID=${examID}&examBag=${examBag}`);
+                setExamResults(result.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [examID, examBag]);
 
     const handleSave = async () => {
         try {
@@ -16,17 +27,18 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
             if(result.data === "Nhập điểm thành công") {
                 setIsMatchingTestScore(true);
             }
-            handleCloseModalScanCode();
+            handleCloseModalReScanCode();
             alert(result.data);
         } catch (error) {
             console.error('Đã xảy ra lỗi khi cập nhật dữ liệu:', error);
             alert("Đã xảy ra lỗi trong quá trình cập nhật dữ liệu. Vui lòng tắt trình duyêt mở lại và thử lại sau!")
         }
     };
+
     const handleRegistrationCodeNumberChange = (event) => {
         setRegistrationCodeNumber(parseInt(event.target.value));
     };
-
+    
     const handleExamResult1Change = (event) => {
         var inputValue = parseFloat(event.target.value);
         if(inputValue < 0) inputValue = 0;
@@ -53,7 +65,7 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
         setExamResult2(inputValue);
         setAverageScore(calculateAverage(examResult1, inputValue));
     };
-
+    
     const handleEditExamResult2 = (event, index) => {
         var inputValue = parseFloat(event.target.value);
         if(inputValue < 0) inputValue = 0;
@@ -75,18 +87,21 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
             setRegistrationCodeNumber(0);
         }
     };
+
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             handleAddExamResult();
         }
     };
-    const handleEditRegistrationCodeNumber = (event, index) => {
+
+    const handleDeleteExamResult = (index) => {
         const updatedResults = [...examResults];
-        updatedResults[index].registrationCodeNumber = parseInt(event.target.value);
+        updatedResults.splice(index, 1);
         setExamResults(updatedResults);
     };
-    
+
     const calculateAverage = (examResult1, examResult2) => {
+        debugger;
         if (isNaN(examResult1) && isNaN(examResult2)) {
             return 0;
         }
@@ -100,62 +115,49 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
             return (examResult1 + examResult2) / 2;
         }
     };
-    
-    const handleDeleteExamResult = (index) => {
-        const updatedResults = [...examResults];
-        updatedResults.splice(index, 1);
-        setExamResults(updatedResults);
-    };
-    
 
     return (
-        <Modal show={showModalScanCode} onHide={handleCloseModalScanCode} backdrop="static">
+        <Modal show={showModalReScanCode} onHide={handleCloseModalReScanCode} backdrop="static">
             <Modal.Header closeButton>
-                <Modal.Title>Quét phách nhập điểm</Modal.Title>
+                <Modal.Title>Quét phách nhập lại điểm</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Form>
-                <Row className="mb-3">
-                    <Form.Group as={Col} controlId="examResult1">
-                        <Form.Label>Điểm 1</Form.Label>
-                        <Form.Control 
-                            type="number"
-                            step="0.01"
-                            value={examResult1}
-                            min="0.0"
-                            max="10.0"
-                            onChange={handleExamResult1Change} 
-                            placeholder="Enter exam result 1" 
-                        />
-                    </Form.Group>
+                <Form>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="examResult1">
+                            <Form.Label>Điểm 1</Form.Label>
+                            <Form.Control 
+                                type="number"
+                                step="0.01"
+                                value={examResult1}
+                                onChange={handleExamResult1Change} 
+                                placeholder="Enter exam result 1" 
+                            />
+                        </Form.Group>
 
-                    <Form.Group as={Col} controlId="examResult2">
-                        <Form.Label>Điểm 2</Form.Label>
-                        <Form.Control 
-                            type="number" 
-                            value={examResult2}
-                            step="0.01"
-                            min="0.0"
-                            max="10.0"
-                            onChange={handleExamResult2Change} 
-                            placeholder="Enter exam result 2" 
-                        />
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="registrationCodeNumber">
-                        <Form.Label>Mã phách</Form.Label>
-                        <Form.Control 
-                            type="number" 
-                            value={registrationCodeNumber} 
-                            onChange={handleRegistrationCodeNumberChange} 
-                            placeholder="Enter registration code number" 
-                            onKeyDown={handleKeyDown}
-                        />
-                    </Form.Group>
-                </Row>
-
-                <Button variant="primary" onClick={handleAddExamResult}>Add</Button>
-            </Form>
-                <br/>
+                        <Form.Group as={Col} controlId="examResult2">
+                            <Form.Label>Điểm 2</Form.Label>
+                            <Form.Control 
+                                type="number" 
+                                value={examResult2}
+                                step="0.01"
+                                onChange={handleExamResult2Change} 
+                                placeholder="Enter exam result 2" 
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="registrationCodeNumber">
+                            <Form.Label>Mã phách</Form.Label>
+                            <Form.Control 
+                                type="number" 
+                                value={registrationCodeNumber} 
+                                onChange={handleRegistrationCodeNumberChange} 
+                                placeholder="Enter registration code number" 
+                                onKeyDown={handleKeyDown}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Button variant="primary" onClick={handleAddExamResult}>Add</Button>
+                </Form>
                 {examResults.length > 0 && (
                     <table className="table border-primary align-middle">
                         <thead>
@@ -173,11 +175,7 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
                                 <tr key={examResult.registrationCodeNumber}>
                                     <td className="text-center align-middle">{index+1}</td>
                                     <td className="text-center align-middle">
-                                        <Form.Control
-                                            type="number"
-                                            value={examResult.registrationCodeNumber}
-                                            onChange={(e) => handleEditRegistrationCodeNumber(e, index)}
-                                        />
+                                        {examResult.registrationCodeNumber}
                                     </td>
                                     <td className="text-center align-middle">
                                         <Form.Control
@@ -206,7 +204,7 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={handleCloseModalScanCode}>
+                <Button variant="success" onClick={handleCloseModalReScanCode}>
                     Close
                 </Button>
                 <Button variant='primary' type='submit' onClick={handleSave} >Save</Button>
@@ -215,4 +213,4 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
     );
 };
 
-export default LecturersScanCode;
+export default LecturersReScanCode;

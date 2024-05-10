@@ -9,6 +9,7 @@ import LecturersExamModalView from './LecturersExamModalView';
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { RxEnter } from "react-icons/rx";
 import { useParams } from 'react-router-dom';
+import LecturersReScanCode from './LecturersReScanCode';
 
 const SubjectExamList = () => {
   const { examId } = useParams();
@@ -18,17 +19,20 @@ const SubjectExamList = () => {
   const [isNotFound, setIsNotFound] = useState(false);
   const [isCandidatesAbsent, setIsCandidatesAbsent] = useState(false);
   const [isMatchingTestScore, setIsMatchingTestScore] = useState(false);
+  const [matchingTestScoreStatus, setMatchingTestScoreStatus] = useState(null);
   const [showModalView, setShowModalView] = useState(false);
   const [showModalUpload, setShowModalUpload] = useState(false);
   const [showModalScanCode, setShowModalScanCode] = useState(false);
+  const [showModalReScanCode, setShowModalReScanCode] = useState(false);
   const fetchData = async () => {
     setIsLoading(false);
     setIsNotFound(false);
     try {
-      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-subject-exam?examID=${examId}&examBag=${keySearch}`);
+      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
       setSubjectExam(result.data);
       setIsCandidatesAbsent(result.data.isEnterCandidatesAbsent);
       setIsMatchingTestScore(result.data.isMatchingTestScore);
+      setMatchingTestScoreStatus(result.data.matchingTestScoreStatus);
       setIsLoading(true);
     } catch (error) {
       console.error(error);
@@ -58,6 +62,12 @@ const SubjectExamList = () => {
   };
   const handleCloseModalScanCode = () => {
     setShowModalScanCode(false);
+  };
+  const handleOpenModalReScanCode = async () => {
+    setShowModalReScanCode(true);
+  };
+  const handleCloseModalReScanCode = () => {
+    setShowModalReScanCode(false);
   };
   const handleOpenModalView = async () => {
     setShowModalView(true);
@@ -101,10 +111,22 @@ const SubjectExamList = () => {
                   { isLoading && !isCandidatesAbsent && (
                     <h4>Vui lòng nhập danh sách vắng thi trước khi upload điểm</h4>
                   )}
-                  { isLoading && isCandidatesAbsent && (isMatchingTestScore?
+                  {/* { isLoading && isCandidatesAbsent && (isMatchingTestScore?
                     <GrView className="fs-4" onClick={handleOpenModalView}/>:
                     <>
                       <IoCloudUploadOutline className="fs-4 mr-4 border rounded p-1 bg-white border-danger" size={30} onClick={handleOpenModalUpload} title="Nhập điểm từ file excel"/> <RxEnter className="fs-4 border rounded p-1 bg-white border-success-subtle" size={30} onClick={handleOpenModalScanCode} title="Quét mã phách để nhập điểm"/>
+                    </>
+                  )} */}
+                  { isLoading && isCandidatesAbsent && (isMatchingTestScore?
+                    <GrView className="fs-4" onClick={handleOpenModalView}/>:
+                    <>
+                      <IoCloudUploadOutline className="fs-4 mr-4 border rounded p-1 bg-white border-danger" size={30} onClick={handleOpenModalUpload} title="Nhập điểm từ file excel"/>
+                      {matchingTestScoreStatus === 0 && (
+                        <RxEnter className="fs-4 border rounded p-1 bg-white border-success-subtle" size={30} onClick={handleOpenModalScanCode} title="Quét mã phách để nhập điểm"/>
+                      )}
+                      {(matchingTestScoreStatus === 1 || matchingTestScoreStatus === 2) && (
+                        <RxEnter className="fs-4 border rounded p-1 bg-white border-success-subtle" size={30} onClick={handleOpenModalReScanCode} title="Quét mã phách để nhập điểm"/>
+                      )}
                     </>
                   )}
                 </td>
@@ -130,10 +152,16 @@ const SubjectExamList = () => {
           </tbody>
         </Table>
       )}
-      {isLoading && (
+      {isLoading && !isMatchingTestScore && (matchingTestScoreStatus === 0) && (
         <>
           <LecturersUploadFile showModalUpload={showModalUpload} handleCloseModalUpload={handleCloseModalUpload} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
           <LecturersScanCode showModalScanCode={showModalScanCode} handleCloseModalScanCode={handleCloseModalScanCode} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
+        </>
+      )}
+      {isLoading && !isMatchingTestScore && (matchingTestScoreStatus === 1 || matchingTestScoreStatus === 2) &&(
+        <>
+          <LecturersUploadFile showModalUpload={showModalUpload} handleCloseModalUpload={handleCloseModalUpload} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
+          <LecturersReScanCode showModalReScanCode={showModalReScanCode} handleCloseModalReScanCode={handleCloseModalReScanCode} examID={examId} examBag={keySearch} setIsMatchingTestScore={setIsMatchingTestScore}/>
         </>
       )}
       {isLoading && isMatchingTestScore && (

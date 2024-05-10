@@ -8,7 +8,7 @@ const LecturersExamModalView = ({ showModalView, handleCloseView, examID, examBa
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await axios.get(`http://localhost:5107/api/ExamResult/get-by-examID-examBag?examID=${examID}&examBag=${examBag}`);
+                const result = await axios.get(`http://localhost:5107/api/ExamResult/get-by-examID-examBag-all?examID=${examID}&examBag=${examBag}`);
                 setExamResults(result.data);
             } catch (error) {
                 console.log(error);

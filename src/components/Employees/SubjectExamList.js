@@ -20,7 +20,7 @@ const SubjectExamList = () => {
     setIsLoading(false);
     setIsNotFound(false);
     try {
-      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-subject-exam?examID=${examId}&examBag=${keySearch}`);
+      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
       setSubjectExam(result.data);
       setIsAction(result.data.isEnterCandidatesAbsent);
       setIsLoading(true);

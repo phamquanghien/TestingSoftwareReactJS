@@ -5,6 +5,9 @@ import { Button, Table, Modal, InputGroup, DropdownButton, DropdownItem } from '
 import { format } from 'date-fns';
 import AddExam from './AddExam';
 import EditExam from './EditExam';
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { GrConfigure } from "react-icons/gr";
 
 const ExamList = () => {
   const [exams, setExams] = useState([]);
@@ -102,9 +105,9 @@ const ExamList = () => {
               <td>
                 <InputGroup className='mb-3'>
                   <DropdownButton variant="success" title="Actions" id="input-group-dropdown-1">
-                    <DropdownItem onClick={() => handleShowEditModal(exam)}>Edit</DropdownItem>
-                    <DropdownItem variant="danger" onClick={() => handleShowDeleteModal(exam)}>Delete</DropdownItem>
-                    <DropdownItem href={`/config-exam/${exam.examId}`}>Config</DropdownItem>
+                    <DropdownItem onClick={() => handleShowEditModal(exam)}><FaRegEdit className="text-success ud-cursor mb-1 mx-1"/>Edit</DropdownItem>
+                    <DropdownItem variant="danger" onClick={() => handleShowDeleteModal(exam)}><MdDeleteForever size={20} className="text-danger ud-cursor mb-1 mx-0"/>Delete</DropdownItem>
+                    <DropdownItem href={`/config-exam/${exam.examId}`}><GrConfigure className="text-primary ud-cursor mb-1 mx-1"/>Config</DropdownItem>
                   </DropdownButton>
                 </InputGroup>
               </td>

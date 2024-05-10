@@ -5,7 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import { FaFileDownload } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 
-const SubjectExamList = () => {
+const SubjectExamByExamBag = () => {
   const { examId } = useParams();
   const [keySearch, setKeySearch] = useState("");
   const [subjectExam, setSubjectExam] = useState({});
@@ -15,7 +15,7 @@ const SubjectExamList = () => {
     setIsLoading(false);
     setIsNotFound(false);
     try {
-      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-subject-exam?examID=${examId}&examBag=${keySearch}`);
+      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
       setSubjectExam(result.data);
       setIsLoading(true);
     } catch (error) {
@@ -25,10 +25,12 @@ const SubjectExamList = () => {
     }
   };
   const handleSearch = () => {
-    fetchData();
+    if (keySearch !== "") {
+      fetchData();
+    }
   };
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && keySearch !== "") {
       handleSearch();
     }
   };
@@ -108,4 +110,4 @@ const SubjectExamList = () => {
   );
 };
 
-export default SubjectExamList;
+export default SubjectExamByExamBag;
