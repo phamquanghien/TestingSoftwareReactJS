@@ -115,6 +115,10 @@ const SubjectExamList = () => {
       {isLoading && (
         <>
           <StudentExamModal showModal={showModal} handleClose={handleCloseModal} examID={examId} examBag={keySearch} setIsAction={setIsAction}/>
+        </>
+      )}
+      {isLoading && isAction && (
+        <>
           <StudentExamModalView showModalView={showModalView} handleCloseView={handleCloseModalView} examID={examId} examBag={keySearch}/>
         </>
       )}

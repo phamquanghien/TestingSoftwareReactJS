@@ -21,7 +21,7 @@ const StudentExamModal = ({ showModal, handleClose, examID, examBag, setIsAction
     
     useEffect(() => {
         const filteredData = studentExams.filter(studentExam =>
-            studentExam.studentCode.toLowerCase().includes(filterStudentCode.toLowerCase())
+            studentExam.studentCode.toLowerCase().includes(filterStudentCode.trim().toLowerCase())
         );
         setFilteredStudentExams(filteredData);
     }, [studentExams, filterStudentCode]);

@@ -33,7 +33,6 @@ const AddExam = ({ show, handleClose, fetchData }) => {
       console.error(error);
     }
   };
-
   return (
     
     <Modal show={show} onHide={handleClose}>
