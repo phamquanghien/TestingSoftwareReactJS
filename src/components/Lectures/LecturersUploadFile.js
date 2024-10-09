@@ -3,6 +3,7 @@ import { Modal, Button, Spinner, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const LecturersUploadFile = ({ showModalUpload, handleCloseModalUpload, examID, examBag, setIsMatchingTestScore}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const handleFileChange = (event) => {
@@ -25,7 +26,7 @@ const LecturersUploadFile = ({ showModalUpload, handleCloseModalUpload, examID, 
             handleCloseModalUpload();
             setLoading(true);
             //call api
-            const response = await axios.post('http://localhost:5107/api/ExamResult/upload-file-result?examId=' + examID + '&examBag=' + examBag, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
+            const response = await axios.post(apiURL + '/api/ExamResult/upload-file-result?examId=' + examID + '&examBag=' + examBag, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
             setLoading(false);
             if(response.data === "Nhập điểm thành công"){
                 setIsMatchingTestScore(true);

@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import { MdFileDownload } from "react-icons/md";
 
 const Statistics = () => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const { examId } = useParams();
     const [subjectExams, setSubjectExams] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +20,7 @@ const Statistics = () => {
         setIsLoaded(false);
         setIsError(false);
         try {
-            const result = await axios.get(`http://localhost:5107/api/SubjectExam/admin-get-by-subject-code-by-examId?examID=${examId}`);
+            const result = await axios.get(`${apiURL}/api/SubjectExam/admin-get-by-subject-code-by-examId?examID=${examId}`);
             
             const filteredData = result.data.filter(subjectExam => subjectExam.isEnterCandidatesAbsent === isEnterCandidatesAbsent && subjectExam.isMatchingTestScore === isMatchingTestScore);
             setSubjectExams(filteredData);
@@ -36,13 +37,13 @@ const Statistics = () => {
         fetchData();
     }
     const handleDownload = async () => {
-        const response = await axios.get(`http://localhost:5107/api/SubjectExam/download-excel-file?examID=${examId}&isEnterCandidatesAbsent=${isEnterCandidatesAbsent}&isMatchingTestScore=${isMatchingTestScore}`, {
+        const response = await axios.get(`${apiURL}/api/SubjectExam/download-excel-file?examID=${examId}&isEnterCandidatesAbsent=${isEnterCandidatesAbsent}&isMatchingTestScore=${isMatchingTestScore}`, {
             responseType: 'blob',
         });
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'SubjectExamStatusList' + '.xlsx'); // Đặt tên file mặc định
+        link.setAttribute('download', 'SubjectExamStatusList.xlsx'); // Đặt tên file mặc định
         document.body.appendChild(link);
         link.click();
         window.URL.revokeObjectURL(url);

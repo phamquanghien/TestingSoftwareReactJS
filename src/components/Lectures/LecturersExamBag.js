@@ -7,12 +7,13 @@ import SubjectExamList from './SubjectExamList';
 
 
 const LecturersExamBag = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const { examId } = useParams();
   const [exam, setExam] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
         try {
-          const examData = await axios.get(`http://localhost:5107/api/Exam/${examId}`);
+          const examData = await axios.get(`${apiURL}/api/Exam/${examId}`);
           setExam(examData.data);
         } catch (error) {
           console.error('Error fetching exam data:', error);

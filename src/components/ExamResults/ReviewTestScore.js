@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
 
 const ReviewTestScore = () => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const { examId } = useParams();
     const [examResult, setExamResult] = useState({});
     const [subjectCode, setSubjectCode] = useState("");
@@ -14,7 +15,7 @@ const ReviewTestScore = () => {
     const fetchData = async () => {
         setIsLoaded(false); // Reset isLoaded before fetching data
         try {
-            const response = await axios.get(`http://localhost:5107/api/ExamResult/admin-get-by-student-code?examID=${examId}&subjectCode=${subjectCode}&studentCode=${studentCode}`);
+            const response = await axios.get(`${apiURL}/api/ExamResult/admin-get-by-student-code?examID=${examId}&subjectCode=${subjectCode}&studentCode=${studentCode}`);
             setExamResult(response.data[0]);
             setIsLoaded(true);
         } catch (error) {
@@ -57,7 +58,7 @@ const ReviewTestScore = () => {
         const isConfirmed = window.confirm("Bạn có chắc chắn muốn lưu điểm phúc khảo?");
         if (isConfirmed) {
             try {
-                const response = await axios.put(`http://localhost:5107/api/ExamResult/${examResult.examResultID}`, examResult);
+                const response = await axios.put(`${apiURL}/api/ExamResult/${examResult.examResultID}`, examResult);
                 alert(response.data)
             } catch (error) {
                 console.error('Error fetching exam result:', error);

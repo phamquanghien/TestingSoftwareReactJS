@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const AddStudent = ({ show, handleClose, fetchData, faculties }) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [newStudent, setNewStudent] = useState({
     studentCode: '',
     fullName: '',
@@ -20,7 +21,7 @@ const AddStudent = ({ show, handleClose, fetchData, faculties }) => {
   const handleAddStudent = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5235/api/student', newStudent);
+      await axios.post(apiURL + '/api/student', newStudent);
       handleClose(); // Close the modal after adding a new student
       fetchData(); // Refresh the student list after adding a new student
     } catch (error) {

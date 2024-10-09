@@ -6,6 +6,7 @@ import EditStudent from './EditStudent';
 import AddStudent from './AddStudent';
 
 const StudentList = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [students, setStudents] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -20,8 +21,8 @@ const StudentList = () => {
 
   const fetchData = async () => {
     try {
-      const studentsResponse = await axios.get('http://localhost:5235/api/student');
-      const facultiesResponse = await axios.get('http://localhost:5235/api/faculty');
+      const studentsResponse = await axios.get(apiURL + '/api/student');
+      const facultiesResponse = await axios.get(apiURL + '/api/faculty');
       setStudents(studentsResponse.data);
       setFaculties(facultiesResponse.data);
     } catch (error) {
@@ -64,7 +65,7 @@ const StudentList = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5235/api/student/${deleteID}`);
+      await axios.delete(`${apiURL}/api/student/${deleteID}`);
       fetchData();
       handleCloseDeleteModal();
     } catch (error) {

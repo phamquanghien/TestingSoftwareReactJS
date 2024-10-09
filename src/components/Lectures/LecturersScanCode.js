@@ -4,6 +4,7 @@ import axios from 'axios';
 import { MdDeleteForever } from "react-icons/md";
 
 const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID, examBag, setIsMatchingTestScore}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [examResults, setExamResults] = useState([]);
     const [registrationCodeNumber, setRegistrationCodeNumber] = useState(0);
     const [examResult1, setExamResult1] = useState(0);
@@ -12,7 +13,7 @@ const LecturersScanCode = ({ showModalScanCode, handleCloseModalScanCode, examID
 
     const handleSave = async () => {
         try {
-            const result = await axios.post('http://localhost:5107/api/ExamResult/scan-registration-code-number?examId=' + examID + '&examBag=' + examBag,examResults);
+            const result = await axios.post(apiURL + '/api/ExamResult/scan-registration-code-number?examId=' + examID + '&examBag=' + examBag,examResults);
             if(result.data === "Nhập điểm thành công") {
                 setIsMatchingTestScore(true);
             }

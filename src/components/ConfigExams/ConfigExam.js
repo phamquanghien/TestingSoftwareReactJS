@@ -11,6 +11,7 @@ import Statistics from '../SubjectExams/Statistics';
 import ReviewTestScore from '../ExamResults/ReviewTestScore';
 import ExportTranscript from '../ExamResults/ExportTranscript';
 const ConfigExam = () => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL + "/api/";
     const { examId } = useParams();
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showConfirmationUpload, setShowConfirmationUpload] = useState(false);
@@ -25,11 +26,11 @@ const ConfigExam = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-              const examData = await axios.get(`http://localhost:5107/api/Exam/${examId}`);
+              const examData = await axios.get(`${apiURL}Exam/${examId}`);
               setExam(examData.data);
-              const countStudentEx = await axios.get(`http://localhost:5107/api/StudentExam/count/${examId}`);
+              const countStudentEx = await axios.get(`${apiURL}StudentExam/count/${examId}`);
               setCountStudentExam(countStudentEx.data);
-              const countRegisCode = await axios.get(`http://localhost:5107/api/RegistrationCode/count/${examId}`);
+              const countRegisCode = await axios.get(`${apiURL}RegistrationCode/count/${examId}`);
               setCountRegistrationCode(countRegisCode.data);
             } catch (error) {
               console.error('Error fetching exam data:', error);
@@ -60,9 +61,9 @@ const ConfigExam = () => {
     }
     const updateInformation = async () => {
         try {
-            const countStudentEx = await axios.get(`http://localhost:5107/api/StudentExam/count/${examId}`);
+            const countStudentEx = await axios.get(`${apiURL}StudentExam/count/${examId}`);
             setCountStudentExam(countStudentEx.data);
-            const countRegisCode = await axios.get(`http://localhost:5107/api/RegistrationCode/count/${examId}`);
+            const countRegisCode = await axios.get(`${apiURL}RegistrationCode/count/${examId}`);
             setCountRegistrationCode(countRegisCode.data);
         } catch (error) {
             console.error('Error fetching student count:', error);

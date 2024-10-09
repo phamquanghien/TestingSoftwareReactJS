@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Modal, Button, Form, Row, Col} from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInformation, countRegistrationCode}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isCheckData, setIsCheckData] = useState(false);
@@ -32,7 +33,7 @@ const UploadStudent = ({show, handleClose, examID, checkOverwrite, updateInforma
         try {
             handleClose();
             setLoading(true);
-            const response = await axios.post('http://localhost:5107/api/StudentExam/Upload?examId=' + examID + '&isOverWrite=' + checkOverwrite + '&isCheckData=' + isCheckData, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
+            const response = await axios.post(apiURL + '/api/StudentExam/Upload?examId=' + examID + '&isOverWrite=' + checkOverwrite + '&isCheckData=' + isCheckData, formData, { headers: { 'Content-Type': 'multipart/form-data'}});
             setLoading(false);
             alert(response.data);
             updateInformation();

@@ -3,6 +3,7 @@ import { Table, Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 const StudentExamModal = ({ showModal, handleClose, examID, examBag, setIsAction}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [studentExams, setStudentExams] = useState([]);
     const [filteredStudentExams, setFilteredStudentExams] = useState([]);
     const [filterStudentCode, setFilterStudentCode] = useState('');
@@ -10,7 +11,7 @@ const StudentExamModal = ({ showModal, handleClose, examID, examBag, setIsAction
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await axios.get(`http://localhost:5107/api/StudentExam/get-list-by-examId?examID=${examID}&examBag=${examBag}`);
+                const result = await axios.get(`${apiURL}/api/StudentExam/get-list-by-examId?examID=${examID}&examBag=${examBag}`);
                 setStudentExams(result.data);
             } catch (error) {
                 console.log(error);
@@ -40,7 +41,7 @@ const StudentExamModal = ({ showModal, handleClose, examID, examBag, setIsAction
     const handleSave = async () => {
         try {
             // Gửi yêu cầu cập nhật dữ liệu đến endpoint API
-            await axios.put('http://localhost:5107/api/StudentExam/update-multiple', studentExams);
+            await axios.put(apiURL + '/api/StudentExam/update-multiple', studentExams);
             setIsAction(true);
             // Sau khi cập nhật thành công, hiển thị thông báo hoặc thực hiện các hành động khác nếu cần
             handleClose();

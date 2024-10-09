@@ -3,6 +3,7 @@ import { Table, Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 const StudentExamModalView = ({ showModalView, handleCloseView, examID, examBag}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [studentExams, setStudentExams] = useState([]);
     const [filteredStudentExams, setFilteredStudentExams] = useState([]);
     const [filterStudentCode, setFilterStudentCode] = useState('');
@@ -10,7 +11,7 @@ const StudentExamModalView = ({ showModalView, handleCloseView, examID, examBag}
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await axios.get(`http://localhost:5107/api/StudentExam/get-list-by-examId?examID=${examID}&examBag=${examBag}`);
+                const result = await axios.get(`${apiURL}/api/StudentExam/get-list-by-examId?examID=${examID}&examBag=${examBag}`);
                 setStudentExams(result.data);
             } catch (error) {
                 console.log(error);

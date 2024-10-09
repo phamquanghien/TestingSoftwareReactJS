@@ -6,6 +6,7 @@ import AddFaculty from './AddFaculty';
 import EditFaculty from './EditFaculty';
 
 const FacultyList = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [faculties, setFaculties] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -19,7 +20,7 @@ const FacultyList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5235/api/faculty');
+      const response = await axios.get(apiURL + '/api/faculty');
       setFaculties(response.data);
     } catch (error) {
       console.error(error);

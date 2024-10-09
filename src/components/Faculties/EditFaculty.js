@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const EditFaculty = ({ show, handleClose, fetchData, faculty }) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [editedFaculty, setEditedFaculty] = useState({
     facultyID: faculty.facultyID,
     facultyCode: faculty.facultyCode,
@@ -17,7 +18,7 @@ const EditFaculty = ({ show, handleClose, fetchData, faculty }) => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5235/api/faculty/${editedFaculty.facultyID}`, editedFaculty);
+      await axios.put(`${apiURL}/api/faculty/${editedFaculty.facultyID}`, editedFaculty);
       handleClose(); // Close the modal after editing the faculty
       fetchData(); // Refresh the faculty list after editing
     } catch (error) {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
 const AddExam = ({ show, handleClose, fetchData }) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [newExam, setNewExam] = useState({
     examCode: '',
     examName: '',
@@ -21,7 +22,7 @@ const AddExam = ({ show, handleClose, fetchData }) => {
   const checkExamCodeExist = async (examCode) => {
     setIsChecking(true);
     try {
-      const response = await axios.get(`http://localhost:5107/api/exam/check-exam-code/${examCode}`);
+      const response = await axios.get(`${apiURL}/api/exam/check-exam-code/${examCode}`);
       return response.data;
     } catch (error) {
       console.error('Error checking ExamCode:', error);
@@ -75,7 +76,7 @@ const AddExam = ({ show, handleClose, fetchData }) => {
       return;
     }
     try {
-      await axios.post('http://localhost:5107/api/exam', newExam);
+      await axios.post(apiURL+'/api/exam', newExam);
       handleClose();
       fetchData();
       setNewExam({

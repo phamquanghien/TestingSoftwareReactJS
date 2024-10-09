@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const AddFaculty = ({ show, handleClose, fetchData }) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [newFaculty, setNewFaculty] = useState({
     facultyCode: '',
     facultyName: '',
@@ -16,7 +17,7 @@ const AddFaculty = ({ show, handleClose, fetchData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5235/api/faculty', newFaculty);
+      await axios.post(apiURL + '/api/faculty', newFaculty);
       handleClose(); // Close the modal after adding a new faculty
       fetchData(); // Refresh the faculty list after adding a new faculty
     } catch (error) {

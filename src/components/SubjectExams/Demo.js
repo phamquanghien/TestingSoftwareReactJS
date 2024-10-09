@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 const Demo = () => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const { examId } = useParams();
     const [subjectExams, setSubjectExams] = useState([]);
     const [keySearch, setKeySearch] = useState("");
@@ -17,7 +18,7 @@ const Demo = () => {
         setIsLoaded(false);
         setIsError(false);
         try {
-            const result = await axios.get(`http://localhost:5107/api/SubjectExam/admin-get-by-subject-code?examID=${examId}&subjectCode=${keySearch}`);
+            const result = await axios.get(`${apiURL}/api/SubjectExam/admin-get-by-subject-code?examID=${examId}&subjectCode=${keySearch}`);
             setSubjectExams(result.data);
             if (result.data.length === 0) {
                 setIsNotFound(true);
@@ -45,7 +46,7 @@ const Demo = () => {
     }
     const handleUpdateCandidatesAbsent = async (subjectExam) => {
         try {
-            const result = await axios.put(`http://localhost:5107/api/SubjectExam/admin-update?subjectExamID=${subjectExam.subjectExamID}&checkData=${true}&dataUpdate=${!subjectExam.isEnterCandidatesAbsent}`);
+            const result = await axios.put(`${apiURL}/api/SubjectExam/admin-update?subjectExamID=${subjectExam.subjectExamID}&checkData=${true}&dataUpdate=${!subjectExam.isEnterCandidatesAbsent}`);
             if (result.data === "Done") {
                 fetchData();
             } else {
@@ -58,7 +59,7 @@ const Demo = () => {
     }
     const handleUpdateMatchingTestScore = async (subjectExam) => {
         try {
-            const result = await axios.put(`http://localhost:5107/api/SubjectExam/admin-update?subjectExamID=${subjectExam.subjectExamID}&checkData=${false}&dataUpdate=${!subjectExam.isMatchingTestScore}`);
+            const result = await axios.put(`${apiURL}/api/SubjectExam/admin-update?subjectExamID=${subjectExam.subjectExamID}&checkData=${false}&dataUpdate=${!subjectExam.isMatchingTestScore}`);
             if (result.data === "Done") {
                 fetchData();
             } else {

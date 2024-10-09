@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import LecturersReScanCode from './LecturersReScanCode';
 
 const SubjectExamList = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const { examId } = useParams();
   const [keySearch, setKeySearch] = useState("");
   const [subjectExam, setSubjectExam] = useState({});
@@ -28,7 +29,7 @@ const SubjectExamList = () => {
     setIsLoading(false);
     setIsNotFound(false);
     try {
-      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
+      const result = await axios.get(`${apiURL}/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
       setSubjectExam(result.data);
       setIsCandidatesAbsent(result.data.isEnterCandidatesAbsent);
       setIsMatchingTestScore(result.data.isMatchingTestScore);

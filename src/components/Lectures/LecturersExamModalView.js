@@ -3,12 +3,13 @@ import { Table, Modal, Button} from 'react-bootstrap';
 import axios from 'axios';
 
 const LecturersExamModalView = ({ showModalView, handleCloseView, examID, examBag, isMatchingTestScore}) => {
+    const apiURL = process.env.REACT_APP_API_BASE_URL;
     const [examResults, setExamResults] = useState([]);
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await axios.get(`http://localhost:5107/api/ExamResult/get-by-examID-examBag-all?examID=${examID}&examBag=${examBag}`);
+                const result = await axios.get(`${apiURL}/api/ExamResult/get-by-examID-examBag-all?examID=${examID}&examBag=${examBag}`);
                 setExamResults(result.data);
             } catch (error) {
                 console.log(error);

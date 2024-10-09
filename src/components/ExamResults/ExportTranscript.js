@@ -6,7 +6,8 @@ import { FaFileDownload } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 
 const ExportTranscript = () => {
-    const { examId } = useParams();
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
+  const { examId } = useParams();
   const [keySearch, setKeySearch] = useState("");
   const [subjectExam, setSubjectExam] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,7 @@ const ExportTranscript = () => {
     setIsLoading(false);
     setIsNotFound(false);
     try {
-      const result = await axios.get(`http://localhost:5107/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
+      const result = await axios.get(`${apiURL}/api/SubjectExam/employee-get-by-exam-bag?examID=${examId}&examBag=${keySearch}`);
       setSubjectExam(result.data);
       setIsLoading(true);
     } catch (error) {
@@ -38,7 +39,7 @@ const ExportTranscript = () => {
     setKeySearch(event.target.value);
   };
   const handleDownload = async () => {
-    const response = await axios.get(`http://localhost:5107/api/ExamResult/admin-download-by-exam-bag?examID=${examId}&examBag=${keySearch}`, {
+    const response = await axios.get(`${apiURL}/api/ExamResult/admin-download-by-exam-bag?examID=${examId}&examBag=${keySearch}`, {
         responseType: 'blob',
     });
     const url = window.URL.createObjectURL(new Blob([response.data]));

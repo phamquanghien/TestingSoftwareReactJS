@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { FiSettings } from 'react-icons/fi';
 
 const EmployeeExam = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [exams, setExams] = useState([]);
   useEffect(() => {
     fetchData();
@@ -14,7 +15,7 @@ const EmployeeExam = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5107/api/exam/get-exam-by-isActive');
+      const response = await axios.get(apiURL + '/api/exam/get-exam-by-isActive');
       setExams(response.data);
     } catch (error) {
       console.error(error);

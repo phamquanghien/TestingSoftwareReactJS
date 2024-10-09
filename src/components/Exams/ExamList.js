@@ -10,6 +10,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { GrConfigure } from "react-icons/gr";
 
 const ExamList = () => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [exams, setExams] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -23,7 +24,7 @@ const ExamList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5107/api/exam');
+      const response = await axios.get(apiURL+'/api/exam');
       setExams(response.data);
     } catch (error) {
       console.error(error);
@@ -62,7 +63,7 @@ const ExamList = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5107/api/exam/${deleteID}`);
+      await axios.delete(`${apiURL}/api/exam/${deleteID}`);
       fetchData();
       handleCloseDeleteModal();
     } catch (error) {

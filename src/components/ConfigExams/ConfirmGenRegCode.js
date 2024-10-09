@@ -4,12 +4,13 @@ import { Button, Form, Modal } from "react-bootstrap";
 import Spinner from 'react-bootstrap/Spinner';
 
 const ConfirmGenRegCode = ({ show, handleClose, isShowButtonOverWrite, message, examID, updateInformation}) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [loading, setLoading] = useState(false);
   const handleGenRegCode = async (isOverWrite) => {
     try {
       handleClose();
       setLoading(true);
-      const response = await axios.put('http://localhost:5107/api/RegistrationCode/code-generation/?examId=' + examID + '&isOverGenRegCode=' + isOverWrite);
+      const response = await axios.put(apiURL + '/api/RegistrationCode/code-generation/?examId=' + examID + '&isOverGenRegCode=' + isOverWrite);
       setLoading(false);
       alert(response.data);
       updateInformation();

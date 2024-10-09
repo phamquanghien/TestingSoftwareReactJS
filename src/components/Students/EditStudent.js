@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const EditStudent = ({ show, handleClose, fetchData, student, faculties }) => {
+  const apiURL = process.env.REACT_APP_API_BASE_URL;
   const [editedStudent, setEditedStudent] = useState({
     studentID: '',
     studentCode: '',
@@ -36,7 +37,7 @@ const EditStudent = ({ show, handleClose, fetchData, student, faculties }) => {
   const handleEditStudent = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5235/api/student/${editedStudent.studentID}`, editedStudent);
+      await axios.put(`${apiURL}/api/student/${editedStudent.studentID}`, editedStudent);
       handleClose();
       fetchData();
     } catch (error) {
