@@ -58,7 +58,7 @@ const AddExam = ({ show, handleClose, fetchData }) => {
     } else if (isNaN(newExam.startRegistrationCode)) {
       newErrors.startRegistrationCode = 'Bắt buộc nhập dữ liệu kiểu số';
     } else if (Number(newExam.startRegistrationCode) < 1000 || Number(newExam.startRegistrationCode) > 1000000) {
-      newErrors.startRegistrationCode = 'Nhập giá trị >= 1000';
+      newErrors.startRegistrationCode = 'Nhập giá trị trong khoảng 1.000 - 1.000.000';
     }
     return newErrors;
   };
@@ -104,59 +104,29 @@ const AddExam = ({ show, handleClose, fetchData }) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Mã kỳ thi:</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="examCode" 
-              value={newExam.examCode} 
-              onChange={handleInputChange} 
-              isInvalid={!!errors.examCode} 
-              disabled={isChecking} 
-            />
+            <Form.Control type="text" name="examCode" value={newExam.examCode} onChange={handleInputChange} isInvalid={!!errors.examCode} disabled={isChecking} />
             {errors.examCode && (
               <Form.Control.Feedback type="invalid">{errors.examCode}</Form.Control.Feedback>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Tên kỳ thi:</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="examName" 
-              value={newExam.examName} 
-              onChange={handleInputChange} 
-              isInvalid={!!errors.examName} 
-            />
+            <Form.Control type="text" name="examName" value={newExam.examName} onChange={handleInputChange} isInvalid={!!errors.examName} />
             {errors.examName && (
               <Form.Control.Feedback type="invalid">{errors.examName}</Form.Control.Feedback>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Người tạo:</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="createPerson" 
-              value={newExam.createPerson} 
-              onChange={handleInputChange} 
-              readOnly 
-            />
+            <Form.Control type="text" name="createPerson" value={newExam.createPerson} onChange={handleInputChange} readOnly />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Chú thích:</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="note" 
-              value={newExam.note} 
-              onChange={handleInputChange} 
-            />
+            <Form.Control type="text" name="note" value={newExam.note} onChange={handleInputChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Phách bắt đầu:</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="startRegistrationCode" 
-              value={newExam.startRegistrationCode} 
-              onChange={handleInputChange} 
-              isInvalid={!!errors.startRegistrationCode} 
-            />
+            <Form.Control type="text" name="startRegistrationCode" value={newExam.startRegistrationCode} onChange={handleInputChange} isInvalid={!!errors.startRegistrationCode} />
             {errors.startRegistrationCode && (
               <Form.Control.Feedback type="invalid">{errors.startRegistrationCode}</Form.Control.Feedback>
             )}
